@@ -21,11 +21,12 @@ public final class Logic {
     }
 
     private boolean free(Cell[] steps) throws OccupiedCellException {
-        for (Cell step : steps) {
-            try {
-                findBy(step);
-                throw new OccupiedCellException(String.format("Figure cannot move this way because cell %s is occupied",step));
-            } catch (FigureNotFoundException ignored) {
+        for (int index = 0; index != figures.length; index++) {
+            Figure figure = figures[index];
+            for (Cell step : steps) {
+                if (figure != null && figure.position().equals(step)) {
+                    throw new OccupiedCellException(String.format("Figure cannot move this way because cell %s is occupied", step));
+                }
             }
         }
         return true;
